@@ -1,9 +1,21 @@
 package com.rkcp.reboot.reboot.model;
 
+import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-@Table
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+/**
+ * Stores the log the user inputs when they come into the webapp and are doing their tracking for the day
+ */
+@Table("user_logs")
 public class UserLog {
 
-    // this is the log the user inputs when they come into the webapp and are doing their track for the day
+    @PrimaryKey
+    private UUID logId;
+
+    private LogType logType;
+    private UserReflection reflection;
+    private LocalDateTime dateCreated;
 }
