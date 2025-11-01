@@ -10,12 +10,9 @@ import java.util.UUID;
  * Stores the log the user inputs when they come into the webapp and are doing their tracking for the day
  */
 @Table("user_logs")
-public class UserLog {
-
-    @PrimaryKey
-    private UUID logId;
-
-    private LogType logType;
-    private UserReflection reflection;
-    private LocalDateTime dateCreated;
+public record UserLog(
+        @PrimaryKey UUID logID,
+        LogType logType,
+        UserReflection userReflection,
+        LocalDateTime dateCreated) {
 }
