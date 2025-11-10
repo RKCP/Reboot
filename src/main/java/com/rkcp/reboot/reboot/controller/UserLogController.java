@@ -22,9 +22,11 @@ import java.util.UUID;
 public class UserLogController {
 
     private static Logger logger = LoggerFactory.getLogger(UserLogController.class);
+    private final UserLogRepository userLogRepository;
 
-    @Autowired
-    private UserLogRepository userLogRepository;
+    public UserLogController(UserLogRepository userLogRepository) {
+        this.userLogRepository = userLogRepository;
+    }
 
     @GetMapping
     public ResponseEntity<List<UserLog>> getUserLogs() {
@@ -38,7 +40,7 @@ public class UserLogController {
         UserLog userLog = new UserLog(
                 UUID.randomUUID(),
                 userLogEntry.logType(),
-                userLogEntry.userReflection(),
+                userLogEntry.userReflection().reflection(),
                 LocalDateTime.now()
         );
 

@@ -13,6 +13,6 @@ import java.util.UUID;
 public record UserLog(
         @PrimaryKey UUID logID,
         LogType logType,
-        UserReflection userReflection,
+        String userReflection,
         LocalDateTime dateCreated) {
 }
