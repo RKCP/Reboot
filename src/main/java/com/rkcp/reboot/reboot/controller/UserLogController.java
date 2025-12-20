@@ -5,7 +5,6 @@ import com.rkcp.reboot.reboot.model.UserLogEntry;
 import com.rkcp.reboot.reboot.repository.UserLogRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.temporal.WeekFields;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,6 +24,7 @@ public class UserLogController {
 
     private static Logger logger = LoggerFactory.getLogger(UserLogController.class);
     private final UserLogRepository userLogRepository;
+    private WeekFields weekFields = WeekFields.of(DayOfWeek.MONDAY, 1);
 
     public UserLogController(UserLogRepository userLogRepository) {
         this.userLogRepository = userLogRepository;
@@ -37,7 +39,12 @@ public class UserLogController {
     @PostMapping
     public ResponseEntity<UserLog> submitUserLog(@RequestBody UserLogEntry userLogEntry) {
 
+        String year = weekFields.weekBasedYear().toString(); // TODO: fix output to be actual year
+        String week = weekFields.weekOfWeekBasedYear().toString(); // TODO: fix output to be actual week
+
         UserLog userLog = new UserLog(
+                userLogEntry.userId(),
+                year + "-" + week,
                 UUID.randomUUID(),
                 userLogEntry.logType(),
                 userLogEntry.userReflection().reflection(),
