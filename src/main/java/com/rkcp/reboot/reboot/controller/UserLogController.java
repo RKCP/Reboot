@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.WeekFields;
 import java.util.List;
@@ -39,8 +40,11 @@ public class UserLogController {
     @PostMapping
     public ResponseEntity<UserLog> submitUserLog(@RequestBody UserLogEntry userLogEntry) {
 
-        String year = weekFields.weekBasedYear().toString(); // TODO: fix output to be actual year
-        String week = weekFields.weekOfWeekBasedYear().toString(); // TODO: fix output to be actual week
+        LocalDate day = LocalDate.now();
+        String year = String.valueOf(day.get(weekFields.weekBasedYear()));
+        String week = String.valueOf(day.get(weekFields.weekOfWeekBasedYear()));
+//        String year = weekFields.weekBasedYear().toString();
+//        String week = weekFields.weekOfWeekBasedYear().toString();
 
         UserLog userLog = new UserLog(
                 userLogEntry.userId(),
